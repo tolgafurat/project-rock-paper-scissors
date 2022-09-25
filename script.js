@@ -1,8 +1,8 @@
 function game() {
   let playerWinCount = 0, computerWinCount = 0;
   let temp;
-  for (let i = 0; i < 5; i++) {
-    let temp = playRound(prompt("Your choice(rock, paper or scissors):"), getComputerChoice(), i+1);
+  for (let i = 0; playerWinCount < 3 && computerWinCount < 3; i++) {
+    temp = playRound(prompt(`ROUND ${i+1} | Your choice(rock, paper or scissors):`), getComputerChoice(), i+1);
     if (temp === 1) {
       playerWinCount++;
     } else if (temp === -1) {
@@ -15,8 +15,6 @@ function game() {
     console.log(`FINAL RESULT: You won ${playerWinCount}, lost ${computerWinCount} games and eventually won.`);
   } else if (computerWinCount > playerWinCount) {
     console.log(`FINAL RESULT: You only won ${playerWinCount} games and lost ${computerWinCount}, so you lost.`);
-  } else {
-    console.log(`FINAL RESULT: You won ${playerWinCount} games and lost ${computerWinCount}, it's a tie.`);
   }
 }
 
