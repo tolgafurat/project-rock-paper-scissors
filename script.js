@@ -14,11 +14,11 @@ buttons.forEach((button) => {
     if (button.className === "play-again") {
       changeButtonVisibility();
       para.textContent = "Choose one:";
-      result.textContent = "";
-      resultImg.src = "";
-      playersChoice.src = "";
-      computersChoice.src = "";
-      vsIcon.src = "";
+      result.style.display = "none";
+      resultImg.style.display = "none";
+      playersChoice.style.display = "none";
+      computersChoice.style.display = "none";
+      vsIcon.style.display = "none";
     } else {
       playRound(button.id, getComputerChoice());
     }
@@ -26,7 +26,14 @@ buttons.forEach((button) => {
 })
 
 function playRound(playerSelection, computerSelection) {
-  resultImg.src = "";
+
+  if (gameCount === 0) {
+    playersChoice.style.display = "block";
+    computersChoice.style.display = "block";
+    vsIcon.style.display = "block";
+    result.style.display = "block";
+    gameCount = 1;
+  }
 
   if (playerSelection === "rock" && computerSelection === "paper") {
     para.textContent = `Game ${gameCount}: You lose! Paper beats Rock`;
@@ -79,6 +86,7 @@ function playRound(playerSelection, computerSelection) {
     default:
       break;
   }
+
   result.textContent = `${playerWinCount} - ${computerWinCount}`;
 
   gameCount++;
@@ -90,6 +98,7 @@ function playRound(playerSelection, computerSelection) {
 }
 
 function endGame(pWinCount, cWinCount) {
+  resultImg.style.display = "block";
   if (pWinCount === 3) {
     para.textContent = `You won ${pWinCount}, lost ${cWinCount} games and eventually won!`;
     resultImg.src = "./media/won.gif";
@@ -100,7 +109,7 @@ function endGame(pWinCount, cWinCount) {
 
   playerWinCount = 0;
   computerWinCount = 0;
-  gameCount = 1;
+  gameCount = 0; //to make images visible in playRound function
   changeButtonVisibility();
 }
 
