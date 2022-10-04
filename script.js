@@ -1,54 +1,107 @@
-function game() {
-  let playerWinCount = 0, computerWinCount = 0;
-  let temp;
-  for (let i = 0; playerWinCount < 3 && computerWinCount < 3; i++) {
-    temp = playRound(prompt(`ROUND ${i+1} | Your choice(rock, paper or scissors):`), getComputerChoice(), i+1);
-    if (temp === 1) {
-      playerWinCount++;
-    } else if (temp === -1) {
-      computerWinCount++;
-    } else if (temp === -2){ 
-      i--; //i's value gets decremented by 1 so the loops with improper inputs will be repeated
+let gameCount = 1;
+let playerWinCount = 0;
+let computerWinCount = 0;
+
+const para = document.querySelector('.info-para');
+const result = document.querySelector('.result');
+const playersChoice = document.querySelector('.player-img');
+const computersChoice = document.querySelector('.computer-img');
+const vsIcon = document.querySelector('.vs-img');
+const resultImg = document.querySelector('.result-img');
+const buttons = document.querySelectorAll('button');
+buttons.forEach((button) => {
+  button.addEventListener('click', () => {
+    if (button.className === "play-again") {
+      changeButtonVisibility();
+      para.textContent = "Choose one:";
+      result.textContent = "";
+      resultImg.src = "";
+      playersChoice.src = "";
+      computersChoice.src = "";
+      vsIcon.src = "";
+    } else {
+      playRound(button.id, getComputerChoice());
     }
+  })
+})
+
+function playRound(playerSelection, computerSelection) {
+  resultImg.src = "";
+
+  if (playerSelection === "rock" && computerSelection === "paper") {
+    para.textContent = `Game ${gameCount}: You lose! Paper beats Rock`;
+    computerWinCount++;
+  } else if (playerSelection === "paper" && computerSelection === "rock") {
+    para.textContent = `Game ${gameCount}: You won! Paper beats Rock`;
+    playerWinCount++;
+  } else if (playerSelection === "rock" && computerSelection === "scissors") {
+    para.textContent = `Game ${gameCount}: You won! Rock beats Scissors`;
+    playerWinCount++;
+  } else if (playerSelection === "scissors" && computerSelection === "rock") {
+    para.textContent = `Game ${gameCount}: You lose! Rock beats Scissors`;
+    computerWinCount++;
+  } else if (playerSelection === "paper" && computerSelection === "scissors") {
+    para.textContent = `Game ${gameCount}: You lose! Scissors beats Paper`;
+    computerWinCount++;
+  } else if (playerSelection === "scissors" && computerSelection === "paper") {
+    para.textContent = `Game ${gameCount}: You won! Scissors beats Paper`;
+    playerWinCount++;
+  } else if (playerSelection === computerSelection) {
+    para.textContent = `Game ${gameCount}: You tie! Both sides chose ${playerSelection.charAt(0).toUpperCase() + playerSelection.slice(1)}`;
   }
-  if (playerWinCount > computerWinCount) {
-    console.log(`FINAL RESULT: You won ${playerWinCount}, lost ${computerWinCount} games and eventually won.`);
-  } else if (computerWinCount > playerWinCount) {
-    console.log(`FINAL RESULT: You only won ${playerWinCount} games and lost ${computerWinCount}, so you lost.`);
+
+  switch(playerSelection) {
+    case "rock":
+      playersChoice.src = "./media/rock.png";
+      break;
+    case "paper":
+      playersChoice.src = "./media/paper.png";
+      break;
+    case "scissors":
+      playersChoice.src = "./media/scissor.png";
+      break;
+    default:
+      break;
   }
+
+  vsIcon.src = "./media/vs.png";
+
+  switch(computerSelection) {
+    case "rock":
+      computersChoice.src = "./media/rock.png";
+      break;
+    case "paper":
+      computersChoice.src = "./media/paper.png";
+      break;
+    case "scissors":
+      computersChoice.src = "./media/scissor.png";
+      break;
+    default:
+      break;
+  }
+  result.textContent = `${playerWinCount} - ${computerWinCount}`;
+
+  gameCount++;
+
+  if (playerWinCount === 3 || computerWinCount === 3) {
+    endGame(playerWinCount, computerWinCount);
+  }
+   
 }
 
-function playRound(playerSelection, computerSelection, gameCount) {
-  playerSelection = playerSelection.toLowerCase();
-  let whoWon; //0 for tie, 1 for win, -1 for lose and -2 for improper inputs
-  
-  if (playerSelection === "rock" && computerSelection === "paper") {
-    console.log(`Game ${gameCount}: You lose! Paper beats Rock`);
-    whoWon = -1;
-  } else if (playerSelection === "paper" && computerSelection === "rock") {
-    console.log(`Game ${gameCount}: You won! Paper beats Rock`);
-    whoWon = 1;
-  } else if (playerSelection === "rock" && computerSelection === "scissors") {
-    console.log(`Game ${gameCount}: You won! Paper beats Scissors`);
-    whoWon = 1;
-  } else if (playerSelection === "scissors" && computerSelection === "rock") {
-    console.log(`Game ${gameCount}: You lose! Rock beats Scissors`);
-    whoWon = -1;
-  } else if (playerSelection === "paper" && computerSelection === "scissors") {
-    console.log(`Game ${gameCount}: You lose! Scissors beats Paper`);
-    whoWon = -1;
-  } else if (playerSelection === "scissors" && computerSelection === "paper") {
-    console.log(`Game ${gameCount}: You won! Scissors beats Paper`);
-    whoWon = 1;
-  } else if (playerSelection === computerSelection) {
-    console.log(`Game ${gameCount}: You tie! Both sides chose ${playerSelection}`);
-    whoWon = 0;
-  } else {
-    console.log("Please enter a valid choice!");
-    whoWon = -2
+function endGame(pWinCount, cWinCount) {
+  if (pWinCount === 3) {
+    para.textContent = `You won ${pWinCount}, lost ${cWinCount} games and eventually won!`;
+    resultImg.src = "./media/won.gif";
+  } else if (cWinCount === 3) {
+    para.textContent = `You only won ${pWinCount} games and lost ${cWinCount}, so you lost.`;
+    resultImg.src = "./media/lost.gif";
   }
 
-  return whoWon;
+  playerWinCount = 0;
+  computerWinCount = 0;
+  gameCount = 1;
+  changeButtonVisibility();
 }
 
 function getComputerChoice() {
@@ -65,4 +118,12 @@ function getComputerChoice() {
   return choice;
 }
 
-game();
+function changeButtonVisibility() {
+  buttons.forEach((btn) => {
+    if (btn.style.display === "none") {
+      btn.style.display = "block";
+    } else {
+      btn.style.display = "none";
+    }
+  })
+}
