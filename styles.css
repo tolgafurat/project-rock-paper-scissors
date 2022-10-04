@@ -76,6 +76,12 @@ img {
   img {
     min-width: 0;
   }
+  .images {
+    gap: 10px;
+  }
+  .result {
+    font-size: 35px;
+  }
 }
 
 .result-img {
