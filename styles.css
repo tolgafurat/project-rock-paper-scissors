@@ -72,6 +72,12 @@ img {
   height: auto;
 }
 
+@media only screen and (max-width: 767px){
+  img {
+    min-width: 0;
+  }
+}
+
 .result-img {
   align-self: center;
 }
