@@ -7,7 +7,7 @@ function game() {
       playerWinCount++;
     } else if (temp === -1) {
       computerWinCount++;
-    } else if (temp === -2){
+    } else if (temp === -2){ 
       i--; //i's value gets decremented by 1 so the loops with improper inputs will be repeated
     }
   }
