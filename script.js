@@ -114,13 +114,13 @@ function endGame(pWinCount, cWinCount) {
 }
 
 function getComputerChoice() {
-  let choiceNum = Math.random() * 10;
+  let choiceNum = Math.random() * 3;
   let choice;
-  if (choiceNum <= 3.3) {
+  if (choiceNum <= 1) {
     choice = "rock";
-  } else if (choiceNum <= 6.6) {
+  } else if (choiceNum <= 2) {
     choice = "paper";
-  } else if (choiceNum <= 10) {
+  } else if (choiceNum <= 3) {
     choice = "scissors";
   }
 
